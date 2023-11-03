@@ -20,17 +20,25 @@ first_search_url = f"https://www.autotrader.com/cars-for-sale/all-cars/{city}-{s
 #Caching the response
 with open("response.html") as f:
     soup = bs(f, 'html.parser')
-    #car data
-    #print(soup.find_all("h3"))
-    #mileage
-    print(soup.find_all("span", class_ = "text-bold"))
-    #result
-    print(soup.find_all("div", class_ = "padding-bottom-4 text-bold text-size-400 text-size-sm-500"))
+    
+    #Get Car Data (includes first)
+    #cars_data = soup.find_all("h3")
+    #for cd in cars_data:
+    #    print(cd.text.split())
 
-#Get total results
-#total_results = 
+    #Get Car Mileage (skips first)
+    #cars_mileage = soup.find_all("div", class_ = "item-card-specifications col-xs-9 margin-top-4 text-subdued-lighter")
+    #for cm in cars_mileage:
+    #    print(cm.text.split()[0])
 
-
+    #Get Car Price (includes first)
+    #cars_price = soup.find_all("span", class_ = "first-price text-ultra-bold")
+    #for cp in cars_price:
+    #    print(cp.text)
+    
+    #Get Search Results
+    #search_results = soup.find("div", class_ = "padding-bottom-4 text-bold text-size-400 text-size-sm-500").text
+    #print(search_results.split()[0])
 
 first_record = 1
 url = f"https://www.autotrader.com/cars-for-sale/all-cars/tampa-fl?firstRecord={first_record}&isNewSearch=false&numRecords=100&zip=33602"
