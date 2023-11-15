@@ -1,31 +1,41 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"}
+headers = {
+    "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    }               
+
 city = "tampa"
 state_initials = "fl"
 zip_code = "33602"
+
 first_search_url = f"https://www.autotrader.com/cars-for-sale/all-cars/{city}-{state_initials}?zip={zip_code}"
 
 response = requests.get(first_search_url, headers=headers)
 soup = bs(response.content, "html.parser")
 
+#Get Total Search Results
 search_results = soup.find("div", class_ = "padding-bottom-4 text-bold text-size-400 text-size-sm-500").text
 search_results = int(search_results.split()[0].replace(",", ""))
+
+
 first_record = 1
 number_of_records_per_page = 100
 url_base = f"https://www.autotrader.com/cars-for-sale/all-cars/{city}-{state_initials}?isNewSearch=false&zip={zip_code}"
 
 cars_data = []
 while first_record < search_results:
-    print(first_record)
+    #Get Random Proxy
+
+
+    #Build URL
     url = f"{url_base}&firstRecord={first_record}&numRecords={number_of_records_per_page}"
-    print(url)
-    response = requests.get(url, headers=headers)
-    print(response.status_code)
     
+    #Make GET Request
+    response = requests.get(url, headers=headers)
     soup = bs(response.content, "html.parser")
     
+    #Get Car Data From Soup
     cars_description = soup.find_all("h3")
     del cars_description[0]
 
@@ -42,7 +52,8 @@ while first_record < search_results:
         car.append(price)
         car.append(mileage)
         cars_data.append(car)
-        
+
+    #Increment Counter    
     first_record += number_of_records_per_page
 
 
